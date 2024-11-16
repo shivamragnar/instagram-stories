@@ -4,15 +4,15 @@ import "../styles/storyList.css"
 
 interface StoryListProps {
     users: User[];
-    onOpenStory: (username: string) => void;
+    onOpenStory: (index: number) => void;
   }
   
 
 const StoryList: React.FC<StoryListProps> = ({ users, onOpenStory }) => {
     return (
         <div className="story-list-container">
-            {users.map((user) => (
-                <StoryCircle key={user.id} user={user} onClick={() => onOpenStory(user.userName)} />
+            {users.map((user, index) => (
+                <StoryCircle key={user.id} user={user} onClick={() => onOpenStory(index)} />
             ))}
         </div>
     )

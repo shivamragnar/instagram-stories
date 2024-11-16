@@ -12,16 +12,45 @@
     z-index: 1000;
 }
 
-.story-close-button {
+.story-top-bar {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+}
+
+.story-top-bar .user-info {
+    display: flex;
+    align-items: center;
+
+    span {
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
+
+.story-top-bar .user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+
+.story-top-bar .story-close-button {
     background: none;
     border: none;
     color: #fff;
     font-size: 24px;
     cursor: pointer;
-    z-index: 1;
 }
 
 .story-navigation-container {

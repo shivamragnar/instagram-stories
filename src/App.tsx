@@ -7,7 +7,7 @@ import StoryViewer from "./components/StoryViewer";
 function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [stories, setStories] = useState<Story>({});
-  const [activeUser, setActiveUser] = useState<string | null>(null)
+  const [activeUserIndex, setActiveUserIndex] = useState<number | null>(null);
   const [activeStoryIndex, setActiveStoryIndex] = useState<number | null>(null)
 
   const loadUsers = () => {
@@ -28,47 +28,45 @@ function App() {
     })
   }
 
-  const onOpenStory = (username: string) => {
-    setActiveUser(username)
+  const onOpenStory = (index: number) => {
+    setActiveUserIndex(index)
     setActiveStoryIndex(0)
   };
 
   const closeStory = () => {
-    setActiveUser(null)
+    setActiveUserIndex(null)
     setActiveStoryIndex(null)
   }
 
-  const handleNavigateStory = useCallback((direction: 'next' | 'prev') => {
-    if (activeUser === null || activeStoryIndex === null) return;
-    const userStories = stories[activeUser] || [];
+  const handleNavigateStory = useCallback(
+    (direction: 'next' | 'prev') => {
+      if (activeUserIndex === null || activeStoryIndex === null) return;
+      const userStories = stories[users[activeUserIndex].userName] || [];
 
-    if (direction === 'next' && activeStoryIndex < userStories.length - 1) {
-      setActiveStoryIndex(activeStoryIndex + 1);
-    } else if (direction === 'next' && activeStoryIndex === userStories.length - 1) {
-      // Move to next user's stories
-      const currentIndex = users.findIndex(user => user.userName === activeUser);
-      if (currentIndex < users.length - 1) {
-        const nextUser = users[currentIndex + 1].userName;
-        setActiveUser(nextUser);
-        setActiveStoryIndex(0);
-      } else {
-        closeStory(); // All users' stories have been seen
+      if (direction === 'next' && activeStoryIndex < userStories.length - 1) {
+        setActiveStoryIndex(activeStoryIndex + 1);
+      } else if (direction === 'next' && activeStoryIndex === userStories.length - 1) {
+        if (activeUserIndex < users.length - 1) {
+          setActiveUserIndex(activeUserIndex + 1);
+          setActiveStoryIndex(0);
+        } else {
+          closeStory();
+        }
+      } else if (direction === 'prev' && activeStoryIndex > 0) {
+        setActiveStoryIndex(activeStoryIndex - 1);
+      } else if (direction === 'prev' && activeStoryIndex === 0) {
+        if (activeUserIndex > 0) {
+          const prevUserIndex = activeUserIndex - 1;
+          const prevUserStories = stories[users[prevUserIndex].userName] || [];
+          setActiveUserIndex(prevUserIndex);
+          setActiveStoryIndex(prevUserStories.length - 1);
+        } else {
+          closeStory();
+        }
       }
-    } else if (direction === 'prev' && activeStoryIndex > 0) {
-      setActiveStoryIndex(activeStoryIndex - 1);
-    } else if (direction === 'prev' && activeStoryIndex === 0) {
-      // Move to previous user's last story
-      const currentIndex = users.findIndex(user => user.userName === activeUser);
-      if (currentIndex > 0) {
-        const prevUser = users[currentIndex - 1].userName;
-        const prevUserStories = stories[prevUser] || [];
-        setActiveUser(prevUser);
-        setActiveStoryIndex(prevUserStories.length - 1);
-      } else {
-        closeStory();
-      }
-    }
-  }, [activeStoryIndex, activeUser, stories, users]);
+    },
+    [activeStoryIndex, activeUserIndex, stories, users]
+  );
 
   useEffect(() => {
     loadUsers()
@@ -76,14 +74,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (activeUser !== null && activeStoryIndex !== null) {
+    if (activeUserIndex !== null && activeStoryIndex !== null) {
       const timer = setTimeout(() => {
         handleNavigateStory('next');
       }, 5000);
 
       return () => clearTimeout(timer);
     }
-  }, [activeUser, activeStoryIndex, handleNavigateStory]);
+  }, [activeUserIndex, activeStoryIndex, handleNavigateStory]);
 
   console.log("users", users);
 
@@ -110,11 +108,12 @@ function App() {
       </div>
 
       <StoryList users={users} onOpenStory={onOpenStory} />
-      {activeUser !== null && activeStoryIndex !== null && (
+      {activeUserIndex !== null && activeStoryIndex !== null && (
         <StoryViewer 
           story={{
-            userName: activeUser ?? '',
-            mediaUrls: stories[activeUser] || []
+            userName: users[activeUserIndex].userName,
+            userProfilePicture: users[activeUserIndex].image,
+            mediaUrls: stories[users[activeUserIndex].userName] || []
           }}
           activeStoryIndex={activeStoryIndex}
           onClose={closeStory}
