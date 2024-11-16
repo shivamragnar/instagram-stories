@@ -1,10 +1,15 @@
-import { User } from "./types";
+import { useCallback, useEffect, useState } from "react";
+import { User, Story } from "./types";
 import "./App.css";
 import StoryList from "./components/StoryList";
+import StoryViewer from "./components/StoryViewer";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
+  const [stories, setStories] = useState<Story>({});
   const [activeUser, setActiveUser] = useState<string | null>(null)
+  const [activeStoryIndex, setActiveStoryIndex] = useState<number | null>(null)
+
   const loadUsers = () => {
     fetch("/data/users.json")
       .then((resp) => resp.json())
@@ -13,19 +18,73 @@ function App() {
         setUsers(res);
       });
   };
+
+  const loadStories = () => {
+    fetch("/data/stories.json")
+    .then((resp) => resp.json())
+    .then((res: Story) => {
+      console.log("testing user stories", res);
+      setStories(res);
+    })
+  }
+
   const onOpenStory = (username: string) => {
     setActiveUser(username)
-  const [count, setCount] = useState(0)
+    setActiveStoryIndex(0)
   };
 
   const closeStory = () => {
     setActiveUser(null)
+    setActiveStoryIndex(null)
   }
+
+  const handleNavigateStory = useCallback((direction: 'next' | 'prev') => {
+    if (activeUser === null || activeStoryIndex === null) return;
+    const userStories = stories[activeUser] || [];
+
+    if (direction === 'next' && activeStoryIndex < userStories.length - 1) {
+      setActiveStoryIndex(activeStoryIndex + 1);
+    } else if (direction === 'next' && activeStoryIndex === userStories.length - 1) {
+      // Move to next user's stories
+      const currentIndex = users.findIndex(user => user.userName === activeUser);
+      if (currentIndex < users.length - 1) {
+        const nextUser = users[currentIndex + 1].userName;
+        setActiveUser(nextUser);
+        setActiveStoryIndex(0);
+      } else {
+        closeStory(); // All users' stories have been seen
+      }
+    } else if (direction === 'prev' && activeStoryIndex > 0) {
+      setActiveStoryIndex(activeStoryIndex - 1);
+    } else if (direction === 'prev' && activeStoryIndex === 0) {
+      // Move to previous user's last story
+      const currentIndex = users.findIndex(user => user.userName === activeUser);
+      if (currentIndex > 0) {
+        const prevUser = users[currentIndex - 1].userName;
+        const prevUserStories = stories[prevUser] || [];
+        setActiveUser(prevUser);
+        setActiveStoryIndex(prevUserStories.length - 1);
+      } else {
+        closeStory();
+      }
+    }
+  }, [activeStoryIndex, activeUser, stories, users]);
 
   useEffect(() => {
     loadUsers()
     loadStories()
   }, []);
+
+  useEffect(() => {
+    if (activeUser !== null && activeStoryIndex !== null) {
+      const timer = setTimeout(() => {
+        handleNavigateStory('next');
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [activeUser, activeStoryIndex, handleNavigateStory]);
+
   console.log("users", users);
 
   return (
@@ -51,6 +110,17 @@ function App() {
       </div>
 
       <StoryList users={users} onOpenStory={onOpenStory} />
+      {activeUser !== null && activeStoryIndex !== null && (
+        <StoryViewer 
+          story={{
+            userName: activeUser ?? '',
+            mediaUrls: stories[activeUser] || []
+          }}
+          activeStoryIndex={activeStoryIndex}
+          onClose={closeStory}
+          onNavigate={handleNavigateStory}
+        />
+      )}
     </div>
   )
 }
