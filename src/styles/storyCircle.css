@@ -1,0 +1,35 @@
+.story-circle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.story-circle-container:hover {
+    transform: scale(1.05);
+}
+
+.story-circle-thumbnail-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(rgba(0, 0, 0, 0.15) 60%, transparent 0), radial-gradient(white 65%, transparent 0), linear-gradient(to top right, orange, deeppink);
+}
+
+.story-circle-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: circle(45%);
+}
+
+.story-circle-text {
+    color: black;
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    max-width: 70px;
+}
