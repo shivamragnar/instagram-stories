@@ -1,0 +1,45 @@
+.story-viewer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.story-close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.story-navigation-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.story-left-panel,
+.story-right-panel {
+    width: 50%;
+    height: 100%;
+}
+
+.story-media {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 15px;
+}

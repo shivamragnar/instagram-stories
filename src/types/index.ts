@@ -5,3 +5,7 @@ export interface User {
   lastName: string;
   image: string;
 }
+
+export interface Story {
+  [username: string]: string[];
+}
