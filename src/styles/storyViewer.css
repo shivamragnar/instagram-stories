@@ -17,12 +17,34 @@
     top: 0;
     left: 0;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding: 10px 20px;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1001;
+}
+
+.story-top-bar .story-progress-bars {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.story-progress-bars .story-progress-bar {
+    flex: 1;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+
+.story-progress-bar.active {
+    background-color: white;
+  }
+
+.story-top-bar .tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .story-top-bar .user-info {

@@ -21,17 +21,27 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
   return (
     <div className="story-viewer-container">
       <div className="story-top-bar">
-        <div className="user-info">
-          <img
-            src={story.userProfilePicture}
-            alt="User"
-            className="user-image"
-          />
-          <span>{story.userName}</span>
+        <div className="story-progress-bars">
+          {story.mediaUrls.map((_, index) => (
+            <div
+              key={index}
+              className={`story-progress-bar ${index <= activeStoryIndex ? 'active' : ''}`}
+            />
+          ))}
         </div>
-        <button className="story-close-button" onClick={onClose}>
-          X
-        </button>
+        <div className="tools">
+          <div className="user-info">
+            <img
+              src={story.userProfilePicture}
+              alt="User"
+              className="user-image"
+            />
+            <span>{story.userName}</span>
+          </div>
+          <button className="story-close-button" onClick={onClose}>
+            X
+          </button>
+        </div>
       </div>
       <div className="story-navigation-container">
         <div
