@@ -57,11 +57,8 @@ function App() {
       } else if (direction === 'prev' && activeStoryIndex === 0) {
         if (activeUserIndex > 0) {
           const prevUserIndex = activeUserIndex - 1;
-          const prevUserStories = stories[users[prevUserIndex].userName] || [];
           setActiveUserIndex(prevUserIndex);
-          setActiveStoryIndex(prevUserStories.length - 1);
-        } else {
-          closeStory();
+          setActiveStoryIndex(0);
         }
       }
     },

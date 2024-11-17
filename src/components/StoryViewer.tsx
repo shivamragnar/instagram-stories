@@ -56,7 +56,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
       <img
         src={story.mediaUrls[activeStoryIndex]}
         alt={`${story.userName}'s Story`}
-        className="story-media"
+        className={`story-media story-index-${activeStoryIndex}`}
       />
     </div>
   );
