@@ -1,4 +1,5 @@
 import "../styles/storyViewer.css";
+import StoryMedia from "./StoryMedia";
 
 interface StoryViewerProps {
   story: {
@@ -17,7 +18,6 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
   onClose,
   onNavigate,
 }) => {
-  console.log("story viewer props", story, activeStoryIndex);
   return (
     <div className="story-viewer-container">
       <div className="story-top-bar">
@@ -53,11 +53,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
           onClick={() => onNavigate("next")}
         ></div>
       </div>
-      <img
-        src={story.mediaUrls[activeStoryIndex]}
-        alt={`${story.userName}'s Story`}
-        className={`story-media story-index-${activeStoryIndex}`}
-      />
+      <StoryMedia mediaUrl={story.mediaUrls[activeStoryIndex]} altText={`${story.userName}'s Story`} className={`story-index-${activeStoryIndex}`} />
     </div>
   );
 };

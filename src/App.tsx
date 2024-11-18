@@ -80,8 +80,6 @@ function App() {
     }
   }, [activeUserIndex, activeStoryIndex, handleNavigateStory]);
 
-  console.log("users", users);
-
   return (
     <div className="app-container">
       <div className="app-title-container">
