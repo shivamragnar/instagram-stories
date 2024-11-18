@@ -1,0 +1,91 @@
+.story-viewer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.story-top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+}
+
+.story-top-bar .story-progress-bars {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.story-progress-bars .story-progress-bar {
+    flex: 1;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+
+.story-progress-bar.active {
+    background-color: white;
+  }
+
+.story-top-bar .tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.story-top-bar .user-info {
+    display: flex;
+    align-items: center;
+
+    span {
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
+
+.story-top-bar .user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+
+.story-top-bar .story-close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.story-navigation-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.story-left-panel,
+.story-right-panel {
+    width: 50%;
+    height: 100%;
+}

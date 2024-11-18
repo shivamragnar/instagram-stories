@@ -1,0 +1,8 @@
+.story-list-container {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 1rem;
+    padding-top: 0;
+}
+
