@@ -41,28 +41,29 @@ function App() {
   const handleNavigateStory = useCallback(
     (direction: 'next' | 'prev') => {
       if (activeUserIndex === null || activeStoryIndex === null) return;
-      const userStories = stories[users[activeUserIndex].userName] || [];
-
-      if (direction === 'next' && activeStoryIndex < userStories.length - 1) {
-        setActiveStoryIndex(activeStoryIndex + 1);
-      } else if (direction === 'next' && activeStoryIndex === userStories.length - 1) {
-        if (activeUserIndex < users.length - 1) {
-          setActiveUserIndex(activeUserIndex + 1);
+  
+      const currentUser = users[activeUserIndex];
+      const userStories = stories[currentUser.userName] || [];
+  
+      if (direction === 'next') {
+        if (activeStoryIndex < userStories.length - 1) {
+          setActiveStoryIndex((prev) => (prev ?? 0) + 1);
+        } else if (activeUserIndex < users.length - 1) {
+          setActiveUserIndex((prev) => (prev ?? 0) + 1);
           setActiveStoryIndex(0);
         } else {
           closeStory();
         }
-      } else if (direction === 'prev' && activeStoryIndex > 0) {
-        setActiveStoryIndex(activeStoryIndex - 1);
-      } else if (direction === 'prev' && activeStoryIndex === 0) {
-        if (activeUserIndex > 0) {
-          const prevUserIndex = activeUserIndex - 1;
-          setActiveUserIndex(prevUserIndex);
+      } else if (direction === 'prev') {
+        if (activeStoryIndex > 0) {
+          setActiveStoryIndex((prev) => (prev ?? 0) - 1);
+        } else if (activeUserIndex > 0) {
+          setActiveUserIndex((prev) => (prev ?? 0) - 1);
           setActiveStoryIndex(0);
         }
       }
     },
-    [activeStoryIndex, activeUserIndex, stories, users]
+    [activeUserIndex, activeStoryIndex, stories, users, closeStory]
   );
 
   useEffect(() => {
