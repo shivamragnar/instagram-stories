@@ -1,3 +1,4 @@
+import React from "react";
 import { User } from "../types";
 
 import "../styles/storyCircle.css"
@@ -8,7 +9,7 @@ interface StoryCircleProps {
     onClick: () => void;
   }
 
-const StoryCircle: React.FC<StoryCircleProps> = ({ user, onClick }) => {
+const StoryCircle: React.FC<StoryCircleProps> = React.memo(({ user, onClick }) => {
     return (
         <div className='story-circle-container' onClick={onClick}>
             <div className="story-circle-thumbnail-container">
@@ -17,6 +18,6 @@ const StoryCircle: React.FC<StoryCircleProps> = ({ user, onClick }) => {
             <div className="story-circle-text">{user.userName}</div>
         </div>
     )
-}
+})
 
 export default StoryCircle

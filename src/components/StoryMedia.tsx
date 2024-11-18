@@ -8,7 +8,7 @@ interface StoryMediaProps {
   className?: string;
 }
 
-const StoryMedia: React.FC<StoryMediaProps> = ({
+const StoryMedia: React.FC<StoryMediaProps> = React.memo(({
   mediaUrl,
   altText,
   className = "",
@@ -53,6 +53,6 @@ const StoryMedia: React.FC<StoryMediaProps> = ({
       )}
     </div>
   );
-};
+})
 
 export default StoryMedia;

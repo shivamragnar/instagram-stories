@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { User, Story } from "./types";
-import "./App.css";
 import StoryList from "./components/StoryList";
 import StoryViewer from "./components/StoryViewer";
+import "./App.css";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -28,15 +28,15 @@ function App() {
     })
   }
 
-  const onOpenStory = (index: number) => {
+  const onOpenStory = useCallback((index: number) => {
     setActiveUserIndex(index)
     setActiveStoryIndex(0)
-  };
+  }, [])
 
-  const closeStory = () => {
+  const closeStory = useCallback(() => {
     setActiveUserIndex(null)
     setActiveStoryIndex(null)
-  }
+  }, [])
 
   const handleNavigateStory = useCallback(
     (direction: 'next' | 'prev') => {
